@@ -1,0 +1,66 @@
+/*
+** main.c for  in /Users/olmo_j/Documents/Projets/Space_Invaders/Etape_01
+** 
+** Made by OLMO Joy
+** Login   <olmo_j@etna-alternance.net>
+** 
+** Started on  Wed Jul  2 14:43:55 2014 OLMO Joy
+** Last update Sun Jul  6 20:23:39 2014 OLMO Joy
+*/
+
+#include <SDL2/SDL.h>
+#include <stdio.h>
+
+typedef struct s_window
+{
+  SDL_Window* window;
+} t_window;
+
+static t_window myWindow;
+
+void init(SDL_Window* myWindow)
+{
+  SDL_CreateRenderer(myWindow, -1, NULL);
+  SDL_Delay(3000); /* Attendre trois secondes, que l'utilisateur voit la fenêtre */
+  SDL_DestroyWindow(myWindow);
+}
+
+int openWindow()
+{
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) != 0)
+    {
+      fprintf(stdout, "Échec de l'initialisation de la SDL (%s)\n",
+	      SDL_GetError());
+      return (-1);
+    }
+  else
+    {
+      /*SDL_Window* myWindow = NULL;*/
+      myWindow.window = SDL_CreateWindow("Space Invaders",
+				 SDL_WINDOWPOS_UNDEFINED,
+				 SDL_WINDOWPOS_UNDEFINED,
+				 640,
+				 480,
+				 SDL_WINDOW_SHOWN);
+      if (myWindow)
+	init(myWindow);
+      else
+	{
+	  fprintf(stderr, "Erreur de création de la fenêtre: %s\n", SDL_GetError());
+	  return (-1);
+	}
+    }
+  return (1);
+}
+
+void destroy()
+{
+  SDL_Quit();
+}
+
+int main(int argc, char** argv)
+{
+  openWindow();
+  destroy();
+  return (0);
+}
